@@ -1,13 +1,10 @@
 import express, { Express } from "express";
 import cors from "cors";
 import routes from "./loaders/routes";
-import { PORT, DATA_PATH } from "./utils/config";
+import { PORT } from "./utils/config";
 
 async function startServer(): Promise<void> {
   const app: Express = express();
-  // Load data from data.json in memory and set it in the app
-  const data = require(DATA_PATH);
-  app.set("data", data);
 
   // Midlewares
   app.use(express.json({ limit: "50mb" }));

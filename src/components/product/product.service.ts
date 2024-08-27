@@ -1,8 +1,7 @@
 import { IProduct, ProductInput } from "../../contracts/product";
 import { IUser } from "../../contracts/user";
 import { IPurchase } from "../../contracts/purchase";
-const products = require("../../data/products.json");
-
+const products = require("../../../data/products.js");
 class ProductService {
   addProduct = async (product: ProductInput) => {
     try {

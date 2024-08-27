@@ -1,6 +1,6 @@
 import { IUser, UserInput } from "@/contracts/user";
 import ProductService from "../product/product.service";
-const users = require("../../data/users.json");
+const users = require("../../../data/users.js");
 
 class UserService {
   productService: ProductService;
