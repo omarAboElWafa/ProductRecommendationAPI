@@ -1,3 +1,5 @@
+import { IPurchase } from "./purchase";
+
 export interface IUser {
   id: number;
   name: string;
@@ -6,8 +8,7 @@ export interface IUser {
     subCategories: string[];
     brands: string[];
   };
-  purchaseHistory: {
-    productId: number;
-    date: string;
-  }[];
+  purchaseHistory: IPurchase[];
 }
+
+export type UserInput = Omit<IUser, "id">;

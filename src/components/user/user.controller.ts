@@ -1,7 +1,6 @@
 import { Request, Response } from "express";
 import UserService from "./user.service";
-import * as helpers from "../../utils/helpers";
-import { handleValidationError } from "../../utils/loggers";
+import { handleError } from "../../utils/loggers";
 import { IUser, UserInput } from "@/contracts/user";
 
 class UserController {
@@ -17,7 +16,7 @@ class UserController {
       return res.status(201).send(newUser);
     } catch (error) {
       console.log(error);
-      return res.status(400).send(handleValidationError(error));
+      return res.status(400).send(handleError(error));
     }
   };
 
@@ -30,7 +29,7 @@ class UserController {
       return res.status(200).send(users);
     } catch (error) {
       console.log(error);
-      return res.status(400).send(handleValidationError(error));
+      return res.status(400).send(handleError(error));
     }
   };
 
@@ -43,7 +42,7 @@ class UserController {
       return res.status(200).send(user);
     } catch (error) {
       console.log(error);
-      return res.status(400).send(handleValidationError(error));
+      return res.status(400).send(handleError(error));
     }
   };
 
@@ -56,7 +55,7 @@ class UserController {
       return res.status(200).send(user);
     } catch (error) {
       console.log(error);
-      return res.status(400).send(handleValidationError(error));
+      return res.status(400).send(handleError(error));
     }
   };
 
@@ -69,7 +68,22 @@ class UserController {
       return res.status(200).send({ message: "User deleted successfully" });
     } catch (error) {
       console.log(error);
-      return res.status(400).send(handleValidationError(error));
+      return res.status(400).send(handleError(error));
+    }
+  };
+
+  getUserRecommendations = async (req: Request, res: Response) => {
+    try {
+      const recommendations = await this.userService.getUserRecommendations(
+        req.params.id
+      );
+      if (!recommendations) {
+        return res.status(404).send({ message: "User not found" });
+      }
+      return res.status(200).send(recommendations);
+    } catch (error) {
+      console.log(error);
+      return res.status(400).send(handleError(error));
     }
   };
 }

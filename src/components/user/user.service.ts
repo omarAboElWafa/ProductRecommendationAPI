@@ -1,10 +1,14 @@
-import users from "@/data";
 import { IUser, UserInput } from "@/contracts/user";
-import * as cache from "../../utils/cache";
-import { REFRESH_TOKEN_EXPIRY_FOR_CACHE } from "../../utils/config";
+import ProductService from "../product/product.service";
+const users = require("../../data/users.json");
 
 class UserService {
-  addUser = async (user: UserInput<IUser>) => {
+  productService: ProductService;
+  constructor(productService: ProductService) {
+    this.productService = productService;
+  }
+
+  addUser = async (user: UserInput) => {
     try {
       const newUser = { ...user, id: users.length + 1 };
       users.push(newUser);
@@ -13,6 +17,7 @@ class UserService {
       throw error;
     }
   };
+
   findUserByEmail = async (email: string) => {
     return users.find((user: any) => user.email === email);
   };
@@ -38,8 +43,13 @@ class UserService {
     return users.splice(parseInt(id) - 1, 1);
   };
 
-  getAllAdmins = async () => {
-    return await User.find({ isAdmin: true }).lean();
+  getUserRecommendations = async (id: string) => {
+    const user = users.find((user: any) => user.id === parseInt(id));
+    if (!user) return null;
+    const productRecommendations =
+      this.productService.getRecommendationsForUser(user);
+    if (!productRecommendations) return null;
+    return productRecommendations;
   };
 }
 
