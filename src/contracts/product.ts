@@ -5,3 +5,6 @@ export interface IProduct {
   subCategory: string;
   brand: string;
 }
+
+// exclude id
+export type ProductInput = Omit<IProduct, "id">;
